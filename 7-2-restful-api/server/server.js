@@ -37,6 +37,15 @@ app.post("/api/songs", async (req, res) => {
   }
 });
 
+app.get("/api/songs/:id", async (req, res) => {
+  try {
+    const song = await Song.findById(req.params.id);
+    if (!song) return res.status(404).json({ message: "Song not found" });
+    res.json(song);
+  } catch (err) {
+    res.status(400).json({ message: err.message || "Failed to load song" });
+  }
+});
 
 // /api/songs/:id (Update song)
 app.put("/api/songs/:id", async (req, res) => {
